@@ -10,10 +10,12 @@ import java.time.Duration;
 import java.time.LocalDate;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
+import org.openqa.selenium.UnexpectedAlertBehaviour;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.edge.EdgeDriver;
 import org.openqa.selenium.edge.EdgeOptions;
+import org.openqa.selenium.remote.DesiredCapabilities;
 import org.openqa.selenium.support.locators.RelativeLocator;
 import org.slf4j.Logger;
 import org.testng.annotations.AfterMethod;
@@ -31,12 +33,19 @@ public class TestingWebdriver {
 
 	 WebDriverManager.edgedriver().create();
 	 
-	EdgeOptions browseroptions = new EdgeOptions();
-	browseroptions.addArguments("--remote-allow-origins=*");
-		driver = new EdgeDriver(browseroptions);
+	EdgeOptions browserOptions = new EdgeOptions();
+	DesiredCapabilities cap = new DesiredCapabilities();
+	//We accept any browser popup to clear the screen
+	cap.setCapability("unexpectedAlertBehaviour", UnexpectedAlertBehaviour.ACCEPT);
+	browserOptions.addArguments("--remote-allow-origins=*");
+	browserOptions.addArguments("--disable-popup-blocking");
+
+		driver = new EdgeDriver(browserOptions);
 		driver.get(sutUrl);
 		driver.manage().deleteAllCookies();
 		driver.manage().window().maximize();
+		
+		assertThat(driver.getTitle()).isEqualTo("Hands-On Selenium WebDriver with Java");
 		
 	}
 	
@@ -52,7 +61,8 @@ public class TestingWebdriver {
 		//verify the title of the page 
 		if(assertThat(driver.getTitle()).isEqualTo("Hands-On Selenium WebDriver with Java") != null) {
 			
-			System.out.println("Title is Hands-On Selenium WebDriver with Java");
+			System.out.println("The title of the page is: " + driver.getTitle());		
+					
 		}
 		
 		//click to open the calendar
@@ -116,7 +126,7 @@ public class TestingWebdriver {
 	@AfterMethod
 	void closeBrowsers() {
 		
-		driver.close();
+		//driver.close();
 //		driver.quit();
 	}
 	

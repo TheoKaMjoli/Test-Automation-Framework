@@ -1,0 +1,23 @@
+name: Playwright workflow
+
+on: 
+  push: 
+    branches: 
+      - main ##TheoCreditDomain-Branch
+
+  workflow_dispatch:
+
+jobs:
+  testAutomation_job: 
+    runs-on: ubuntu-latest
+
+    steps:
+      - run: echo " Hello World!"
+
+      - name: Checkout
+        uses: actions/checkout@v4.2.2
+
+      - run: |
+          echo "The repository ${{ github.repository }} contains the following
+          files:"
+          tree

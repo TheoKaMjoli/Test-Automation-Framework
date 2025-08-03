@@ -35,6 +35,7 @@ public class TestingWebdriver {
 	String title;
 	private WebDriver driver;
 
+	//performs before all other
 	@BeforeMethod
 	void classSetup() {
 		//System.setProperty("webdriver.chrome.driver", "C:\\Users\\X483094\\.cache\\selenium\\chromedriver\\win64\\126.0.6478.126.chromedriver.exe");

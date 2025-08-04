@@ -7,37 +7,14 @@ jobs:
   generate-a-secret-output:
     runs-on: ubuntu-latest
     steps:
-      - id: sets-a-secret
-        name: Generate, mask, and output a secret
+      - name: Set the value
+        id: step_one
         run: |
-          the_secret=$((RANDOM))
-          echo "::add-mask::$the_secret"
-          echo "secret-number=$the_secret" >> "$GITHUB_OUTPUT"
+          echo "action_state=yellow" >> "$GITHUB_ENV"
 
-      - name: Use that secret output (protected by a mask)
+      - name: Use the value
         run: |
-          echo "the secret number is ${{ steps.sets-a-secret.outputs.secret-number }}"
-
-
-
-
-          
-# jobs:
-#   job_1:
-#     strategy:
-#       fail-fast: false
-#       max-parallel: 3
-#       matrix:
-#         os_version: [macos-latest, ubuntu-latest]
-#         node_version: [12, 14, 16]
-
-#     name: My MY
-#     runs-on: ${{ matrix.os_version }}
-#     steps:
-#       - uses: actions/setup-node@v3.6.0
-#         with: 
-#           node-version: ${{ matrix.os_version }}
-  
+          echo "${{ env.action_state }}" # This will output 'yellow'
 
 
 

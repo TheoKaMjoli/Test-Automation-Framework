@@ -3,40 +3,45 @@ name: Playwright workflow
 on: 
   push: 
     branches: 
-      - main ##TheoCreditDomain-Branch
-
+      - main # TheoCreditDomain-Branch
   workflow_dispatch:
 
-  # jobs:
-  # testAutomation_job: 
-  #   runs-on: ubuntu-latest
-
-  #   steps:
-  #     - run: echo " Hello World!"
-
-  #     - name: Checkout
-  #       uses: actions/checkout@v4.2.2
-
-  #     - run: |
-  #         echo "The repository ${{ github.repository }} contains the following
-  #         files:"
-  #         tree
-
 jobs:
-  job_1:
-    strategy:
-      fail-fast: false
-      max-parallel: 3
-      matrix:
-        os_version: [macos-latest, ubuntu-latest]
-        node_version: [12, 14, 16]
+  deploy:
+    if: ${{ github.ref == 'refs/heads/main' }}
+    runs-on: ubuntu-latest
 
-    name: My MY
-    runs-on: ${{ matrix.os_version }}
     steps:
-      - uses: actions/setup-node@v3.6.0
-        with: 
-          node-version: ${{ matrix.os_version }}
+      - name: Echo deployment branch
+        run: echo "Deploying branch ${{ github.ref }}"
+
+      - name: Hello World
+        run: echo "Hello World!"
+
+      - name: Checkout repository
+        uses: actions/checkout@v4.2.2
+
+      - name: List repository files
+        run: |
+          echo "The repository ${{ github.repository }} contains the following files:"
+          tree
+
+          
+# jobs:
+#   job_1:
+#     strategy:
+#       fail-fast: false
+#       max-parallel: 3
+#       matrix:
+#         os_version: [macos-latest, ubuntu-latest]
+#         node_version: [12, 14, 16]
+
+#     name: My MY
+#     runs-on: ${{ matrix.os_version }}
+#     steps:
+#       - uses: actions/setup-node@v3.6.0
+#         with: 
+#           node-version: ${{ matrix.os_version }}
   
 
 

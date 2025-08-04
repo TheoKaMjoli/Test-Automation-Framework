@@ -8,16 +8,21 @@ on:
   workflow_dispatch:
 
 jobs:
-  testAutomation_job: 
-    runs-on: ubuntu-latest
+  job_1:
+    strategy:
+      fail-fast: false
+      max-parallel: 3
+      matrix:
+        os_version: [macos-latest, ubuntu-latest]
+        node_version: [12, 14, 16]
 
+    name: My MY
+    runs-on: ${{ matrix.os_version }}
     steps:
-      - run: echo " Hello World!"
+      - uses: actions/setup-node@v3.6.0
+        with: 
+          node-version: ${{ matrix.os_version }}
+  
 
-      - name: Checkout
-        uses: actions/checkout@v4.2.2
 
-      - run: |
-          echo "The repository ${{ github.repository }} contains the following
-          files:"
-          tree
+

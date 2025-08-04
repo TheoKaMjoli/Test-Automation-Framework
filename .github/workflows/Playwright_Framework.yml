@@ -1,37 +1,25 @@
 name: Playwright workflow
 
 on: 
-  push: 
-    branches: 
-      - main # TheoCreditDomain-Branch
-  workflow_dispatch:
+  push:
 
 jobs:
-  deploy:
-    if: ${{ github.ref == 'refs/heads/main' }}
+  generate-a-secret-output:
     runs-on: ubuntu-latest
-
     steps:
-
-      - name: Set the value
-        id: step_one
+      - id: sets-a-secret
+        name: Generate, mask, and output a secret
         run: |
-          echo "action_state=yellow" >> "$GITHUB_ENV"
-      - run: |
-          echo "${{ env.action_state }}" # This will output 'yellow'
-            - name: Echo deployment branch
-              run: echo "Deploying branch ${{ github.ref }}"
+          the_secret=$((RANDOM))
+          echo "::add-mask::$the_secret"
+          echo "secret-number=$the_secret" >> "$GITHUB_OUTPUT"
 
-      - name: Hello World
-        run: echo "Hello World!"
-
-      - name: Checkout repository
-        uses: actions/checkout@v4.2.2
-
-      - name: List repository files
+      - name: Use that secret output (protected by a mask)
         run: |
-          echo "The repository ${{ github.repository }} contains the following files:"
-          tree
+          echo "the secret number is ${{ steps.sets-a-secret.outputs.secret-number }}"
+
+
+
 
           
 # jobs:

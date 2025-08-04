@@ -12,8 +12,15 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Echo deployment branch
-        run: echo "Deploying branch ${{ github.ref }}"
+
+      - name: Set the value
+        id: step_one
+        run: |
+          echo "action_state=yellow" >> "$GITHUB_ENV"
+      - run: |
+          echo "${{ env.action_state }}" # This will output 'yellow'
+            - name: Echo deployment branch
+              run: echo "Deploying branch ${{ github.ref }}"
 
       - name: Hello World
         run: echo "Hello World!"
